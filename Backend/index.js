@@ -27,8 +27,6 @@ const client = new MongoClient(uri, {
 
 async function run() {
     try {
-        await client.connect();
-
         const usersDataCollection = client.db("USER_DB").collection("users_data");
 
         // add a user in the database
@@ -82,35 +80,6 @@ async function run() {
             const result = await usersDataCollection.deleteOne(query);
             res.send(result);
         })
-
-        // search by category
-        // app.get('/all-books/:category', async (req, res) => {
-        //     const category = req.params.category;
-        //     const result = await booksCollection.find({ category: category }).toArray();
-        //     res.send(result);
-        // })
-        // search by author
-        // app.get('/all-books/:author', async (req, res) => {
-        //     const author = req.params.author;
-        //     const result = await booksCollection.find({ author: author }).toArray();
-        //     res.send(result);
-        // })
-        // search by title
-
-        // app.get('/all-books/:title', async (req, res) => {
-        //     const title = req.params.title;
-        //     const result = await booksCollection.find({ title: title }).toArray();
-        //     res.send(result);
-        // })
-
-        // app.get('/all-books', async (req, res) => {
-        //     let query = {};
-        //     if (req.query?.genre) {
-        //         query = { genre: req.query?.genre };
-        //     }
-        //     const result = await booksCollection.find(query).toArray();
-        //     res.send(result);
-        // })
 
         await client.db("admin").command({ ping: 1 });
 

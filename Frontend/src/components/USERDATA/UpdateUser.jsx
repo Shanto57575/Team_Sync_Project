@@ -26,7 +26,7 @@ const UpdateUser = () => {
 			domain,
 		};
 
-		fetch(`http://localhost:5000/users/${data._id}`, {
+		fetch(`https://backend-alpha-lovat.vercel.app/users/${data._id}`, {
 			method: "PUT",
 			headers: {
 				"content-type": "application/json",

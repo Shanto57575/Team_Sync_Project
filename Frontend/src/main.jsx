@@ -18,7 +18,8 @@ const router = createBrowserRouter([
 	{
 		path: "/updateuser/:id",
 		element: <UpdateUser />,
-		loader: ({ params }) => fetch(`http://localhost:5000/users/${params.id}`),
+		loader: ({ params }) =>
+			fetch(`https://backend-alpha-lovat.vercel.app/users/${params.id}`),
 	},
 ]);
 

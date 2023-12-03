@@ -14,7 +14,7 @@ const AddUser = () => {
 			available: form.elements.available.value === "true",
 		};
 		console.log(data);
-		fetch("http://localhost:5000/users/", {
+		fetch("https://backend-alpha-lovat.vercel.app/users/", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

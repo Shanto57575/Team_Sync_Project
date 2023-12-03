@@ -18,7 +18,7 @@ const SearchBar = () => {
 	const usersPerPage = 20;
 
 	useEffect(() => {
-		fetch("http://localhost:5000/users")
+		fetch("https://backend-alpha-lovat.vercel.app/users")
 			.then((res) => res.json())
 			.then((data) => {
 				setUserData(data);
