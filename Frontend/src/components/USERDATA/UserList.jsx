@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const UserList = ({
 	searchQuery,
 	filteredUser,
@@ -24,8 +26,6 @@ const UserList = ({
 					</div>
 				)}
 			</h1>
-
-			{/* Filters Section */}
 
 			<h3 className="text-xl mb-2">Filter by :</h3>
 			<div className="text-white lg:flex justify-between">
@@ -225,11 +225,17 @@ const UserList = ({
 						{currentUsers.map((user) => (
 							<div
 								key={user.id}
-								className="card h-72 cursor-pointer shadow-md shadow-cyan-300 hover:shadow-2xl hover:border-2 hover:scale-110 duration-300 rounded-none"
+								className="card h-72 cursor-pointer shadow-md shadow-cyan-300 hover:shadow-2xl hover:border-2 rounded-none"
 							>
 								<figure className="bg-[#b5dcf2] my-3 h-20 w-20 rounded-full mx-auto">
 									<img src={user.avatar} alt="profile" />
 								</figure>
+								<Link
+									className="absolute top-3 right-2 btn bg-gray-700 rounded-md"
+									to={`/updateuser/${user._id}`}
+								>
+									<button>Update</button>
+								</Link>
 								<div className="card-body">
 									<h2 className="card-title">
 										{user.first_name} {user.last_name}

@@ -29,16 +29,14 @@ async function run() {
     try {
         await client.connect();
 
-        //creating books collection in DATABASE
-
         const usersDataCollection = client.db("USER_DB").collection("users_data");
 
-        // // Upload a book in the database
-        // app.post('/upload-book', async (req, res) => {
-        //     const data = req.body;
-        //     const result = await booksCollection.insertMany(data);
-        //     res.send(result)
-        // })
+        // add a user in the database
+        app.post('/users', async (req, res) => {
+            const data = req.body;
+            const result = await usersDataCollection.insertOne(data);
+            res.send(result)
+        })
 
         // Get All the userData from thi API
         app.get('/users', async (req, res) => {
@@ -46,38 +44,44 @@ async function run() {
             res.send(result);
         })
 
+        // Get All the specific user data from the API
         app.get('/users/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id);
             const query = { _id: new ObjectId(id) };
             const result = await usersDataCollection.findOne(query);
             res.send(result);
         })
 
 
-        // // Update Book Details
-        // app.patch('/book-update/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     const updateBookDetails = req.body;
-        //     const filter = { _id: new ObjectId(id) };
+        // Update User Details
+        app.put('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true }
+            const updateData = req.body;
 
-        //     const updateDoc = {
-        //         $set: {
-        //             ...updateBookDetails,
-        //             rating: Math.random() * 5
-        //         }
-        //     }
-        //     const result = await booksCollection.updateOne(filter, updateDoc);
-        //     res.send(result)
-        // })
+            const updateDoc = {
+                $set: {
+                    first_name: updateData.first_name,
+                    last_name: updateData.last_name,
+                    email: updateData.email,
+                    gender: updateData.gender,
+                    avatar: updateData.avatar,
+                    available: updateData.available,
+                    domain: updateData.domain,
+                }
+            }
+            const result = await usersDataCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        })
 
-        // // Delete a book from the database
-        // app.delete('/book-delete/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     const query = { _id: new ObjectId(id) };
-        //     const result = await booksCollection.deleteOne(query);
-        //     res.send(result);
-        // })
+        // Delete a user from the database
+        app.delete('/users/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await usersDataCollection.deleteOne(query);
+            res.send(result);
+        })
 
         // search by category
         // app.get('/all-books/:category', async (req, res) => {

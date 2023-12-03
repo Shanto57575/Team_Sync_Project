@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import UserList from "./UserList";
 import logo from "../../assets/logo.png";
+import { Link } from "react-router-dom";
 
 const SearchBar = () => {
 	const [userData, setUserData] = useState([]);
@@ -17,7 +18,7 @@ const SearchBar = () => {
 	const usersPerPage = 20;
 
 	useEffect(() => {
-		fetch("http://localhost:5000/users/")
+		fetch("http://localhost:5000/users")
 			.then((res) => res.json())
 			.then((data) => {
 				setUserData(data);
@@ -26,7 +27,6 @@ const SearchBar = () => {
 	}, []);
 
 	const handleCheckboxChange = (category, value) => {
-		console.log(category, value);
 		setFilters((prevFilters) => {
 			const isValueSelected = prevFilters[category].includes(value);
 
@@ -102,6 +102,9 @@ const SearchBar = () => {
 						/>
 					</div>
 				</form>
+				<Link to="/adduser">
+					<button className="btn bg-gray-700 rounded-md">Add User</button>
+				</Link>
 			</div>
 			<UserList
 				searchQuery={searchQuery}
