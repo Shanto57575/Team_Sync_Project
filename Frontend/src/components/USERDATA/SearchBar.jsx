@@ -116,6 +116,7 @@ const SearchBar = () => {
 				handleCheckboxChange={handleCheckboxChange}
 				paginate={paginate}
 				Loading={Loading}
+				setUserData={setUserData}
 			/>
 		</>
 	);

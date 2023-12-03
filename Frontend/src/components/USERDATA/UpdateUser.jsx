@@ -37,10 +37,11 @@ const UpdateUser = () => {
 			.then((data) => {
 				if (data.modifiedCount > 0) {
 					Swal.fire({
-						title: "Success!",
-						text: "User data Updated Successfully",
+						position: "center",
 						icon: "success",
-						confirmButtonText: "Cool",
+						title: "User data updated Successfully",
+						showConfirmButton: false,
+						timer: 1500,
 					});
 				}
 			});

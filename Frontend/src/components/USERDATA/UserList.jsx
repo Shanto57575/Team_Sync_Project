@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const UserList = ({
 	searchQuery,
@@ -8,9 +9,45 @@ const UserList = ({
 	paginate,
 	currentPage,
 	filters,
+	setUserData,
 	handleCheckboxChange,
 	Loading,
 }) => {
+	const handleDelete = (id) => {
+		console.log(id);
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You won't be able to revert this!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				fetch(`http://localhost:5000/users/${id}`, {
+					method: "DELETE",
+				})
+					.then((res) => res.json())
+					.then((data) => {
+						if (data.deletedCount > 0) {
+							Swal.fire({
+								position: "center",
+								icon: "success",
+								title: "User deleted Successfully",
+								showConfirmButton: false,
+								timer: 1500,
+							});
+							currentUsers = currentUsers.filter(
+								(matched) => matched._id !== id
+							);
+							setUserData(currentUsers);
+						}
+					});
+			}
+		});
+	};
+
 	return (
 		<>
 			<h1>
@@ -26,7 +63,6 @@ const UserList = ({
 					</div>
 				)}
 			</h1>
-
 			<h3 className="text-xl mb-2">Filter by :</h3>
 			<div className="text-white lg:flex justify-between">
 				<div className="w-full lg:w-[20%] shadow-md shadow-cyan-400">
@@ -244,7 +280,7 @@ const UserList = ({
 										{user.domain}
 									</div>
 									<p>{user.email}</p>
-									<div className="card-actions justify-start">
+									<div className="card-actions flex items-center justify-start">
 										<div className="badge badge-outline">{user.gender}</div>
 										<div className="badge badge-outline">
 											{user.available ? (
@@ -253,6 +289,12 @@ const UserList = ({
 												<span className="text-red-500">Not available</span>
 											)}
 										</div>
+										<button
+											onClick={() => handleDelete(user._id)}
+											className="btn btn-sm bg-gray-700"
+										>
+											Delete
+										</button>
 									</div>
 								</div>
 							</div>
