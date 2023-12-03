@@ -29,6 +29,8 @@ async function run() {
     try {
         await client.connect();
 
+        //creating books collection in DATABASE
+
         const usersDataCollection = client.db("USER_DB").collection("users_data");
 
         // add a user in the database
