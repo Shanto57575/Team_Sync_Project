@@ -28,6 +28,7 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         const usersDataCollection = client.db("USER_DB").collection("users_data");
+        const TeamCollection = client.db("USER_DB").collection("team_data");
 
         // add a user in the database
         app.post('/users', async (req, res) => {
@@ -79,6 +80,30 @@ async function run() {
             const query = { _id: new ObjectId(id) };
             const result = await usersDataCollection.deleteOne(query);
             res.send(result);
+        })
+
+        // SelectTeam
+
+        app.get('/team', async (req, res) => {
+            const result = await TeamCollection.find().toArray();
+            res.send(result);
+        })
+
+        app.post('/team', async (req, res) => {
+            const data = req.body;
+
+            const existingTeamMember = await TeamCollection.findOne({ domain: data.domain });
+            if (existingTeamMember) {
+                return res.status(400).json({ error: 'Domain is not unique' });
+            }
+
+            // Check for availability
+            if (!data.available) {
+                return res.status(400).json({ error: 'Person is not available for selection' });
+            }
+
+            const result = await TeamCollection.insertOne(data);
+            res.send(result)
         })
 
         await client.db("admin").command({ ping: 1 });

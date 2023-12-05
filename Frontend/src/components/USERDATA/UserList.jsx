@@ -13,8 +13,43 @@ const UserList = ({
 	handleCheckboxChange,
 	Loading,
 }) => {
-	const handleDelete = (id) => {
+	const handleAddToTeam = (id) => {
 		console.log(id);
+		fetch(`https://backend-alpha-lovat.vercel.app/users/${id}`, {
+			method: "GET",
+		})
+			.then((res) => res.json())
+			.then((userData) => {
+				console.log("user data: " + userData);
+				fetch(`https://backend-alpha-lovat.vercel.app/team`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(userData),
+				})
+					.then((res) => res.json())
+					.then((data) => {
+						if (data.insertedId) {
+							Swal.fire({
+								position: "center",
+								icon: "success",
+								title: "New User Added to Team",
+								showConfirmButton: false,
+								timer: 1500,
+							});
+						} else {
+							Swal.fire({
+								icon: "error",
+								title: "Oops...",
+								text: "Not available For selection",
+							});
+						}
+					});
+			});
+	};
+
+	const handleDelete = (id) => {
 		Swal.fire({
 			title: "Are you sure?",
 			text: "You won't be able to revert this!",
@@ -266,6 +301,13 @@ const UserList = ({
 								<figure className="bg-[#b5dcf2] my-3 h-20 w-20 rounded-full mx-auto">
 									<img src={user.avatar} alt="profile" />
 								</figure>
+								<button
+									onClick={() => handleAddToTeam(user._id)}
+									className="absolute top-3 left-2 btn bg-gray-700 rounded-md"
+									title="Make a Team"
+								>
+									Select
+								</button>
 								<Link
 									className="absolute top-3 right-2 btn bg-gray-700 rounded-md"
 									to={`/updateuser/${user._id}`}

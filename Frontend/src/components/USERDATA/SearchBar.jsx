@@ -5,7 +5,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
 	return (
 		<>
 			<div className="flex items-center justify-between">
-				<img className="w-20" src={logo} alt="" />
+				<img className="w-20 hidden md:block" src={logo} alt="" />
 				{/* Search Input Area */}
 				<form className="md:w-1/2 mx-3 md:mx-auto text-center my-10">
 					<label
@@ -42,9 +42,16 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => {
 						/>
 					</div>
 				</form>
-				<Link to="/adduser">
-					<button className="btn bg-gray-700 rounded-md">Add User</button>
-				</Link>
+				<div>
+					<Link to="/adduser">
+						<button className="btn bg-gray-700 rounded-md">Add User</button>
+					</Link>
+				</div>
+				<div>
+					<Link to="/myTeam">
+						<button className="btn bg-gray-700 rounded-md">My Team</button>
+					</Link>
+				</div>
 			</div>
 		</>
 	);

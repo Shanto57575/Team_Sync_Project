@@ -5,6 +5,7 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AddUser from "./components/USERDATA/AddUser.jsx";
 import UpdateUser from "./components/USERDATA/UpdateUser.jsx";
+import MyTeam from "./components/Team/MyTeam.jsx";
 
 const router = createBrowserRouter([
 	{
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
 	{
 		path: "/adduser",
 		element: <AddUser />,
+	},
+	{
+		path: "/myTeam",
+		element: <MyTeam />,
 	},
 	{
 		path: "/updateuser/:id",
